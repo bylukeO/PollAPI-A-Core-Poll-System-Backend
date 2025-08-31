@@ -8,7 +8,7 @@ class Poll(models.Model):
         return self.question_text
 
 class Option(models.Model):
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='options')
     option_text = models.CharField(max_length=200)
 
     def __str__(self):

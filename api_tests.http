@@ -1,0 +1,94 @@
+### ==============================================
+### POLL API DOCUMENTATION DEMO
+### ==============================================
+
+### POLLS SECTION
+### ==============================================
+
+### 1. List All Polls
+GET http://127.0.0.1:8000/api/polls/
+Content-Type: application/json
+
+### 2. Create New Poll
+POST http://127.0.0.1:8000/api/polls/
+Content-Type: application/json
+
+{
+  "question_text": "What is your favorite color?",
+  "pub_date": "2025-09-01T15:00:00Z"
+}
+
+### 3. Get Specific Poll Details
+GET http://127.0.0.1:8000/api/polls/3/
+Content-Type: application/json
+
+### 4. Get Poll 4 Details
+GET http://127.0.0.1:8000/api/polls/4/
+Content-Type: application/json
+
+### 5. Get All Options
+GET http://127.0.0.1:8000/api/options/
+Content-Type: application/json
+
+### 6. Get Options for Specific Poll
+GET http://127.0.0.1:8000/api/polls/4/options/
+Content-Type: application/json
+
+### 7. Create New Option for Poll 3
+POST http://127.0.0.1:8000/api/options/
+Content-Type: application/json
+
+{
+  "option_text": "Red",
+  "poll": 3
+}
+
+### 8. Create New Option for Poll 4
+POST http://127.0.0.1:8000/api/options/
+Content-Type: application/json
+
+{
+  "option_text": "Blue", 
+  "poll": 4
+}
+
+### VOTING SECTION
+### ==============================================
+
+### 9. Submit Vote for Poll 3
+POST http://127.0.0.1:8000/api/polls/3/vote/
+Content-Type: application/json
+
+{
+  "option_id": 1
+}
+
+### 10. Submit Another Vote for Poll 4
+POST http://127.0.0.1:8000/api/polls/4/vote/
+Content-Type: application/json
+
+{
+  "option_id": 5
+}
+
+### 11. List All Votes
+GET http://127.0.0.1:8000/api/votes/
+Content-Type: application/json
+
+### ERROR TESTING SECTION
+### ==============================================
+
+### 12. Test Error Handling - Invalid Option ID
+POST http://127.0.0.1:8000/api/polls/3/vote/
+Content-Type: application/json
+
+{
+  "option_id": 999
+}
+
+### 13. Test Error Handling - Missing Option ID
+POST http://127.0.0.1:8000/api/polls/3/vote/
+Content-Type: application/json
+
+{
+}
