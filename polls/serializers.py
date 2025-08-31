@@ -14,11 +14,12 @@ class PollSerializer(serializers.ModelSerializer):
         model = Poll
         fields = ['id', 'question_text', 'pub_date', 'options']
 
-class VoteSerializer(serializers.Serializer):
+class VoteSerializer(serializers.ModelSerializer):
     option_id = serializers.PrimaryKeyRelatedField(
         queryset=Option.objects.all(),
         source='option'
     )
 
-    def create(self, validated_data):
-        return Vote.objects.create(**validated_data)
+    class Meta:
+        model = Vote
+        fields = ['poll', 'option_id']

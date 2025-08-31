@@ -1,6 +1,7 @@
 # polls/views.py
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework import status
 from .models import Poll, Option, Vote
 from .serializers import PollSerializer, OptionSerializer, VoteSerializer
 
@@ -16,14 +17,17 @@ class VoteCreate(generics.CreateAPIView):
     serializer_class = VoteSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        poll_id = self.kwargs['pk']
+        data = request.data.copy()
+        data['poll'] = poll_id
+        
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        # Update the vote count on the option
-        option = serializer.validated_data['option']
-        option.votes += 1
-        option.save()
-
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+class VoteList(generics.ListAPIView):
+    queryset = Vote.objects.all()
+    serializer_class = VoteSerializer
